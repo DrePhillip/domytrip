@@ -154,9 +154,10 @@ Estas vêm diretamente da linguagem Uber e estão detalhadas em `DESIGN.md`:
 
 ## 8. Onde isto vive
 
-- **Código:** `github.com/DrePhillip/domytrip`, privado. Ramo `main`.
-- **Site:** Netlify, a partir de `prototype/`. Cada push republica.
-- **A palavra-passe do site nunca é commitada.** Vem da variável de ambiente `GATE_PASSWORD` e é injetada por `tools/build-site.js` no build. A que está no repositório é só a de desenvolvimento. Ver ADR-024.
+- **Site:** https://drephillip.github.io/domytrip/
+- **Código:** `github.com/DrePhillip/domytrip`, **público**. Ramo `main`. Cada push republica o site.
+- **A palavra-passe do site nunca é commitada.** Vem do secret `GATE_PASSWORD` e é injetada por `tools/build-site.js` no workflow. A que está no repositório é só a de desenvolvimento — e é pública. Ver ADR-025.
+- **O repositório é público: nada de segredos, caminhos absolutos ou emails pessoais.** Os commits usam o endereço `noreply` do GitHub; o `git config` local já está assim.
 
 ---
 

@@ -41,45 +41,27 @@ de telemóvel. Numa janela baixa, a moldura reduz automaticamente.
 
 | | |
 |---|---|
-| Código e histórico | [github.com/DrePhillip/domytrip](https://github.com/DrePhillip/domytrip) — privado |
-| Site | Netlify, a partir da pasta `prototype/` |
-| Cópia no claude.ai | Artifact privado; só abre para quem tiver conta Claude e acesso dado |
+| **Site** | **[drephillip.github.io/domytrip](https://drephillip.github.io/domytrip/)** |
+| Código | [github.com/DrePhillip/domytrip](https://github.com/DrePhillip/domytrip) — público |
+| Publicação | GitHub Pages, automático a cada `git push` |
 
----
-
-## Publicar o site
-
-Uma vez só, no [Netlify](https://app.netlify.com):
-
-1. **Add new site → Import an existing project → GitHub** e escolhe `domytrip`.
-2. Não mexas em nada: o `netlify.toml` já diz que publica `prototype/`.
-3. **Site settings → Environment variables** → cria `GATE_PASSWORD` com a palavra-passe real.
-
-A partir daí cada `git push` republica o site sozinho.
-
-Sem o passo 3 o site usa a palavra-passe de desenvolvimento que está no repositório.
-
-### Partilha rápida, sem Netlify
-
-Link temporário enquanto o portátil estiver ligado:
-
-```bash
-node tools/serve.js prototype 4173
-```
-
-E noutro terminal:
-
-```bash
-cloudflared tunnel --url http://localhost:4173
-```
+O `netlify.toml` fica no repositório como alternativa, para o dia em que fizer falta um domínio próprio ou headers HTTP a sério.
 
 ---
 
 ## A porta
 
-O protótipo pede uma palavra-passe antes de mostrar seja o que for ([prototype/js/gate.js](prototype/js/gate.js)). No repositório está `roma2026`, que é só o valor de desenvolvimento — a do site vem da variável de ambiente.
+O site pede uma palavra-passe antes de mostrar seja o que for ([prototype/js/gate.js](prototype/js/gate.js)).
 
-> **Não é segurança.** A palavra-passe acaba sempre no JavaScript que o browser recebe, e lê-se no source. Serve para o link não ficar aberto a quem passe por ele por acaso. Ver ADR-023 e ADR-024.
+**A palavra-passe do site vem do secret `GATE_PASSWORD`**, injetado no build por `tools/build-site.js`. Define-o em *Settings → Secrets and variables → Actions*:
+
+```bash
+gh secret set GATE_PASSWORD
+```
+
+Sem esse secret, o site usa `roma2026` — que está no código, num repositório público, e portanto não protege nada.
+
+> **A porta não é segurança.** A palavra-passe acaba sempre no JavaScript que o browser recebe. Serve para o link não ficar aberto a quem passe por ele por acaso. Ver ADR-023 e ADR-025.
 
 Abaixo de 480px de largura a moldura de telemóvel desaparece e a app ocupa o ecrã todo.
 

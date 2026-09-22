@@ -496,7 +496,7 @@ O Artifact foi publicado porque é imediato e privado por omissão. Para enviar 
 
 ## ADR-024 — Repositório privado no GitHub, site no Netlify
 
-**Data:** 2026-09-22 · **Estado:** Aceite · fecha a parte de alojamento do ADR-023
+**Data:** 2026-09-22 · **Estado:** **Substituído por ADR-025**
 
 **Contexto.** O ADR-023 pôs o protótipo num Artifact do claude.ai e deixou o alojamento por decidir. O Artifact resolveu-se mal: o link pede conta Claude, por isso não serve para enviar a alguém de fora. E o projeto não estava sequer em git — dez rondas de trabalho sem histórico nenhum.
 
@@ -512,3 +512,24 @@ O Artifact foi publicado porque é imediato e privado por omissão. Para enviar 
 **O ficheiro `netlify.toml` publica só `prototype/`.** Os documentos não vão para o ar. E manda `X-Robots-Tag: noindex`: um protótipo não tem nada que andar em motores de busca.
 
 **Uma armadilha.** A primeira versão do `build-site.js` ancorava a expressão regular no fim da linha (`$`) e nunca encontrava nada, porque a linha da palavra-passe tem um comentário a seguir. Apanhado a correr o script antes de o pôr no ar, não depois.
+
+---
+
+## ADR-025 — Repositório público e site no GitHub Pages
+
+**Data:** 2026-09-22 · **Estado:** Aceite · substitui ADR-024
+
+**Contexto.** O ADR-024 tinha optado por repositório privado com o site no Netlify, por o Pages a partir de privado exigir plano pago. O utilizador decidiu abrir o repositório, com o argumento de que ninguém lá chega sem o link.
+
+**O argumento não se aguenta, e vale a pena ficar escrito.** Um repositório público é indexado pela pesquisa do GitHub e pelos motores de busca. É encontrado sem ninguém dar link nenhum. O que protege o site não é a obscuridade do endereço — é a palavra-passe vir de um secret e não do código.
+
+**Decisão.** Repositório público, e o site passa a sair do próprio repositório via GitHub Pages. O `netlify.toml` fica como alternativa, se um dia fizer falta um domínio próprio ou headers a sério.
+
+**Porquê Pages agora.** Com o repositório público é gratuito e dispensa inscrição em qualquer outro serviço. Um serviço a menos para manter.
+
+**Duas coisas tiveram de ser feitas antes de abrir:**
+
+1. **O email pessoal saiu do histórico.** Os três commits tinham `dreduarte72@gmail.com` no autor e no committer. Num repositório público isso é raspado por bots em horas. Reescritos para o endereço `noreply` do GitHub, com `git filter-branch`, limpeza dos `refs/original` e force push. O `git config` local ficou com o mesmo endereço, para não voltar a acontecer.
+2. **O Pages não define headers HTTP**, por isso o `X-Robots-Tag` do Netlify não se aplica. Foi para o `index.html` um `<meta name="robots" content="noindex, nofollow">`.
+
+**Limite conhecido.** O force push deixa os commits antigos como objetos órfãos no GitHub até serem recolhidos. Não estão em nenhum ramo e não são descobríveis sem o SHA, mas existem. Para um repositório de três commits com um email dentro, é um risco aceite; para um segredo a sério, a resposta correta seria apagar e recriar o repositório.
