@@ -1,0 +1,13 @@
+# O site é só a pasta do protótipo. Os documentos ficam no repositório.
+# O build substitui a palavra-passe pela variável GATE_PASSWORD, definida
+# em Site settings → Environment variables. Ver DECISIONS.md → ADR-024.
+
+[build]
+  publish = "prototype"
+  command = "node tools/build-site.js"
+
+# Um protótipo não tem nada que andar em motores de busca.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
