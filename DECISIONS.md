@@ -533,3 +533,19 @@ O Artifact foi publicado porque é imediato e privado por omissão. Para enviar 
 2. **O Pages não define headers HTTP**, por isso o `X-Robots-Tag` do Netlify não se aplica. Foi para o `index.html` um `<meta name="robots" content="noindex, nofollow">`.
 
 **Limite conhecido.** O force push deixa os commits antigos como objetos órfãos no GitHub até serem recolhidos. Não estão em nenhum ramo e não são descobríveis sem o SHA, mas existem. Para um repositório de três commits com um email dentro, é um risco aceite; para um segredo a sério, a resposta correta seria apagar e recriar o repositório.
+
+---
+
+## ADR-026 — Os ficheiros do site levam versão no URL
+
+**Data:** 2026-09-22 · **Estado:** Aceite
+
+**Contexto.** Depois de definir o secret `GATE_PASSWORD` e republicar, o servidor já tinha a palavra-passe nova — mas o browser continuava a aceitar a antiga. O `gate.js` vinha da cache.
+
+**A causa.** O GitHub Pages manda `Cache-Control: max-age=600`. Quem já tivesse aberto o site ficava dez minutos com o JavaScript antigo, e portanto com a palavra-passe antiga a funcionar depois de ela ter sido mudada. Numa porta, isso não é um detalhe de performance: é a porta a continuar aberta com a chave velha.
+
+**Decisão.** `tools/build-site.js` carimba todos os CSS e JS do `index.html` com `?v=<sha do commit>` no momento do deploy. Cada publicação muda os URL, por isso a cache não tem como servir a versão antiga.
+
+**O que fica por resolver, e não tem solução neste alojamento.** O próprio `index.html` também é cacheado dez minutos, e é ele que traz os URL carimbados. Quem abriu o site nos dez minutos anteriores a uma mudança de palavra-passe continua a entrar com a antiga até a cache expirar. Resolve-se sozinho, mas convém saber: **uma palavra-passe mudada só está mesmo mudada dez minutos depois.**
+
+**Como foi apanhado.** A testar o site publicado, não em local. Em local não há cache de dez minutos e o problema não existe. Vale para a próxima: uma mudança de alojamento verifica-se no alojamento.

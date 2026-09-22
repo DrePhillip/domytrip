@@ -61,6 +61,14 @@ gh secret set GATE_PASSWORD
 
 Sem esse secret, o site usa `roma2026` — que está no código, num repositório público, e portanto não protege nada.
 
+Definir o secret **não republica sozinho**. Dispara o deploy a seguir:
+
+```bash
+gh workflow run "Publicar no GitHub Pages"
+```
+
+E conta **dez minutos** até a palavra-passe antiga deixar mesmo de funcionar para quem já tinha aberto o site — é a cache do GitHub Pages. Ver ADR-026.
+
 > **A porta não é segurança.** A palavra-passe acaba sempre no JavaScript que o browser recebe. Serve para o link não ficar aberto a quem passe por ele por acaso. Ver ADR-023 e ADR-025.
 
 Abaixo de 480px de largura a moldura de telemóvel desaparece e a app ocupa o ecrã todo.

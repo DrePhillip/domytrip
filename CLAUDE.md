@@ -158,6 +158,8 @@ Estas vêm diretamente da linguagem Uber e estão detalhadas em `DESIGN.md`:
 - **Código:** `github.com/DrePhillip/domytrip`, **público**. Ramo `main`. Cada push republica o site.
 - **A palavra-passe do site nunca é commitada.** Vem do secret `GATE_PASSWORD` e é injetada por `tools/build-site.js` no workflow. A que está no repositório é só a de desenvolvimento — e é pública. Ver ADR-025.
 - **O repositório é público: nada de segredos, caminhos absolutos ou emails pessoais.** Os commits usam o endereço `noreply` do GitHub; o `git config` local já está assim.
+- **Os CSS e JS levam `?v=<sha>` no deploy** (`tools/build-site.js`). Sem isso a cache de 10 minutos do Pages serve os ficheiros antigos — incluindo a palavra-passe antiga. Ver ADR-026.
+- **Mudanças de alojamento verificam-se no alojamento**, não em local: em local não há cache nem headers, e é aí que os problemas se escondem.
 
 ---
 
