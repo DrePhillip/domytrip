@@ -37,17 +37,31 @@ de telemóvel. Numa janela baixa, a moldura reduz automaticamente.
 
 ---
 
-## Partilhar com alguém
+## Onde vive
 
-O protótipo tem uma **porta com palavra-passe** (`js/gate.js`). A palavra-passe de origem é `roma2026` — muda-a na constante `GATE_PASSWORD`, ou põe-na a vazio para desligar a porta.
+| | |
+|---|---|
+| Código e histórico | [github.com/DrePhillip/domytrip](https://github.com/DrePhillip/domytrip) — privado |
+| Site | Netlify, a partir da pasta `prototype/` |
+| Cópia no claude.ai | Artifact privado; só abre para quem tiver conta Claude e acesso dado |
 
-> **Não é segurança.** A palavra-passe está no código e lê-se no source do browser. Serve para o link não ficar aberto a quem passe por ele por acaso. Ver ADR-023.
+---
 
-Abaixo de 480px de largura a moldura de telemóvel desaparece e a app ocupa o ecrã todo, como uma app a sério.
+## Publicar o site
 
-### Link temporário, agora
+Uma vez só, no [Netlify](https://app.netlify.com):
 
-Serve a pasta do protótipo e abre um túnel público. O link morre quando fechares o terminal.
+1. **Add new site → Import an existing project → GitHub** e escolhe `domytrip`.
+2. Não mexas em nada: o `netlify.toml` já diz que publica `prototype/`.
+3. **Site settings → Environment variables** → cria `GATE_PASSWORD` com a palavra-passe real.
+
+A partir daí cada `git push` republica o site sozinho.
+
+Sem o passo 3 o site usa a palavra-passe de desenvolvimento que está no repositório.
+
+### Partilha rápida, sem Netlify
+
+Link temporário enquanto o portátil estiver ligado:
 
 ```bash
 node tools/serve.js prototype 4173
@@ -59,20 +73,17 @@ E noutro terminal:
 cloudflared tunnel --url http://localhost:4173
 ```
 
-### Link permanente
-
-A pasta `prototype/` é auto-suficiente: arrasta-a para o [Netlify Drop](https://app.netlify.com/drop) ou publica-a no Cloudflare Pages. Não precisa de build nem de conta para quem abre.
-
-### Artifact do claude.ai
-
-Já publicado. É privado: só abre para ti e para quem lhe deres acesso no menu Share da página — e essas pessoas precisam de conta Claude. Para republicar depois de mudares o protótipo:
-
-```bash
-node tools/build-publish.js
-```
-
 ---
 
+## A porta
+
+O protótipo pede uma palavra-passe antes de mostrar seja o que for ([prototype/js/gate.js](prototype/js/gate.js)). No repositório está `roma2026`, que é só o valor de desenvolvimento — a do site vem da variável de ambiente.
+
+> **Não é segurança.** A palavra-passe acaba sempre no JavaScript que o browser recebe, e lê-se no source. Serve para o link não ficar aberto a quem passe por ele por acaso. Ver ADR-023 e ADR-024.
+
+Abaixo de 480px de largura a moldura de telemóvel desaparece e a app ocupa o ecrã todo.
+
+---
 ## Documentos
 
 Ler por esta ordem:

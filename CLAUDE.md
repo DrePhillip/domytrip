@@ -69,7 +69,8 @@ DoMyTrip/
 ├── tools/
 │   ├── serve.js         ← servidor estático sem dependências, só para dev
 │   ├── build-brand.js   ← converte o SVG do fal.ai e injeta o sprite no index.html
-│   └── build-publish.js ← gera _artifact.html para publicar no claude.ai
+│   ├── build-publish.js ← gera _artifact.html para publicar no claude.ai
+│   └── build-site.js    ← injeta a palavra-passe real no build do Netlify
 └── prototype/
     ├── index.html     ← todos os ecrãs, um por <section class="screen">
     ├── css/tokens.css ← APENAS variáveis. Nenhuma regra de componente.
@@ -151,7 +152,15 @@ Estas vêm diretamente da linguagem Uber e estão detalhadas em `DESIGN.md`:
 
 ---
 
-## 8. Estado atual e limites conhecidos
+## 8. Onde isto vive
+
+- **Código:** `github.com/DrePhillip/domytrip`, privado. Ramo `main`.
+- **Site:** Netlify, a partir de `prototype/`. Cada push republica.
+- **A palavra-passe do site nunca é commitada.** Vem da variável de ambiente `GATE_PASSWORD` e é injetada por `tools/build-site.js` no build. A que está no repositório é só a de desenvolvimento. Ver ADR-024.
+
+---
+
+## 9. Estado atual e limites conhecidos
 
 - O protótipo é **clicável, não funcional**: não há backend, login real, GPS ou mapa real.
 - O mapa é desenhado à mão em SVG, plano, e representa Roma de forma estilizada, não geográfica. Ver ADR-016.

@@ -491,3 +491,24 @@ O Artifact foi publicado porque é imediato e privado por omissão. Para enviar 
 **Consequência para o código.** `tools/build-publish.js` gera `prototype/_artifact.html` a partir do `index.html`: o Artifact envolve o ficheiro no seu próprio esqueleto, por isso o que se publica é só o conteúdo do `<body>`. Correr sempre antes de republicar.
 
 **Uma armadilha que apanhei.** O bloco `@media (max-width: 480px)` estava a meio do ficheiro e não fazia nada: media queries **não acrescentam especificidade**, por isso só ganham ao que vem antes delas. `.statusbar { display: flex }` aparecia depois e continuava a ganhar. O bloco vive agora no fim do `app.css`, de propósito.
+
+---
+
+## ADR-024 — Repositório privado no GitHub, site no Netlify
+
+**Data:** 2026-09-22 · **Estado:** Aceite · fecha a parte de alojamento do ADR-023
+
+**Contexto.** O ADR-023 pôs o protótipo num Artifact do claude.ai e deixou o alojamento por decidir. O Artifact resolveu-se mal: o link pede conta Claude, por isso não serve para enviar a alguém de fora. E o projeto não estava sequer em git — dez rondas de trabalho sem histórico nenhum.
+
+**Decisão.** Separar as duas coisas que estavam a ser tratadas como uma:
+
+- **Repositório privado** em `github.com/DrePhillip/domytrip` — guarda o código, os ADR e o histórico.
+- **Site no Netlify**, a partir da pasta `prototype/` — link permanente, sem conta para quem abre.
+
+**Porque não o GitHub Pages.** Pages a partir de repositório privado exige plano pago. As alternativas eram tornar o repositório público — o que expõe o código e torna a palavra-passe pesquisável — ou separar código de alojamento. Separar é mais limpo de qualquer maneira: o repositório serve o histórico, o Netlify serve o site, e nenhum dos dois tem de fazer concessões ao outro.
+
+**A palavra-passe deixa de estar no repositório.** `tools/build-site.js` corre como build command e substitui `GATE_PASSWORD` pela variável de ambiente do Netlify. A que fica versionada é só a de desenvolvimento. Continua a não ser segurança — quem abrir o source do site lê a real — mas deixa de estar no histórico do git para sempre.
+
+**O ficheiro `netlify.toml` publica só `prototype/`.** Os documentos não vão para o ar. E manda `X-Robots-Tag: noindex`: um protótipo não tem nada que andar em motores de busca.
+
+**Uma armadilha.** A primeira versão do `build-site.js` ancorava a expressão regular no fim da linha (`$`) e nunca encontrava nada, porque a linha da palavra-passe tem um comentário a seguir. Apanhado a correr o script antes de o pôr no ar, não depois.
