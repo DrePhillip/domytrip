@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DoMyTrip — protótipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- A marca fica inline para poder herdar a cor do contexto (currentColor).
+     Gerada por tools/build-brand.js a partir do SVG vetorizado no fal.ai. -->
+<!--LOGO-SPRITE--><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="dmt-mark" viewBox="573 573 902 902"><mask id="dmt-s" maskUnits="userSpaceOnUse" x="573" y="573" width="902" height="902"><rect x="573" y="573" width="902" height="902" fill="#000"/><path fill="#fff" d="M 614.413 614.412 L 861.975 614.394 L 964.331 614.384 C 988.596 614.385 1013.07 613.836 1037.31 615.126 C 1214.94 624.578 1358.95 717.687 1413.78 891.196 L 1239.56 1065.16 C 1241.03 1052.18 1241.83 1039.13 1241.96 1026.07 C 1242.12 930.962 1201.55 842.079 1112.02 800.659 C 1054.63 774.106 999.279 777.967 938.119 777.957 L 808.843 777.985 C 807.511 778.237 808.341 777.992 806.513 779.133 C 805.806 797.968 806.325 820.015 806.341 839.131 L 806.364 944.205 L 806.32 1270.04 L 939.692 1270.1 C 972.4 1270.1 1006.02 1271.31 1038.34 1266.73 L 870.64 1433.9 L 614.507 1433.88 L 614.413 614.412 z"/><path fill="#fff" d="M 1427.53 956.732 C 1432.18 961.318 1433.82 1016.92 1433.93 1026.36 C 1436.66 1250.31 1267.9 1420.5 1046.39 1432.59 C 1016.51 1434.22 986.993 1433.95 956.75 1433.92 C 954.178 1433.92 954.842 1433.96 952.341 1433.37 C 953.358 1429.38 1005.9 1378.26 1013.21 1370.97 L 1137.13 1247.13 L 1427.53 956.732 z"/></mask><rect x="573" y="573" width="902" height="902" fill="currentColor" mask="url(#dmt-s)"/></symbol></svg><!--/LOGO-SPRITE-->
+
+<!-- Porta do protótipo. Ver js/gate.js — é obstáculo, não segurança. -->
+<div class="gate" id="gate" hidden>
+  <div class="gate-box">
+    <svg class="logo-mark" width="34" height="34" aria-hidden="true"><use href="#dmt-mark"/></svg>
+    <div>
+      <h1>Protótipo privado</h1>
+      <p>Pede a palavra-passe a quem te enviou o link.</p>
+    </div>
+    <input id="gatePass" type="password" autocomplete="off" placeholder="Palavra-passe" aria-label="Palavra-passe">
+    <button class="btn on-dark" id="gateGo">Entrar</button>
+    <p class="err" id="gateErr" hidden>Palavra-passe errada. Tenta outra vez.</p>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="phone" id="phone">
+
+    <div class="statusbar" id="statusbar">
+      <span class="num">9:41</span>
+      <span class="sb-icons">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.6" y="5" width="3" height="6" rx="1"/><rect x="9.2" y="2.6" width="3" height="8.4" rx="1"/><rect x="13.8" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.6 5.9 8.4a3 3 0 0 1 4.2 0L8 10.6ZM3.8 6.3 2.3 4.8a8 8 0 0 1 11.4 0l-1.5 1.5a5.9 5.9 0 0 0-8.4 0ZM.6 3.1a12.4 12.4 0 0 1 14.8 0l-1.5 1.5a10.3 10.3 0 0 0-11.8 0L.6 3.1Z"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2.2" y="2.2" width="16.8" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.4 4.2v3.6a2 2 0 0 0 0-3.6Z" fill="currentColor" fill-opacity=".4"/></svg>
+      </span>
+    </div>
+
+    <!-- ============ SPLASH ============ -->
+    <section class="screen splash on-black is-active" data-screen="splash" id="splashScreen">
+      <div class="logo-lockup" style="font-size:36px">
+        <svg class="logo-mark" width="40" height="40" aria-hidden="true"><use href="#dmt-mark"/></svg>
+        <span>DoMyTrip</span>
+      </div>
+      <p>O teu dia, decidido à última hora</p>
+      <div class="loader"><i></i></div>
+    </section>
+
+    <!-- ============ LOGIN ============ -->
+    <section class="screen login" data-screen="login">
+      <div class="inner">
+        <div class="logo-lockup" style="font-size:20px">
+          <svg class="logo-mark" width="24" height="24" aria-hidden="true"><use href="#dmt-mark"/></svg>
+          <span>DoMyTrip</span>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="stagger">
+          <h1 class="t-hero">Chega.<br>Abre.<br>Vai.</h1>
+          <p class="t-body dim" style="margin-top:var(--s4);max-width:30ch">
+            Dizes-nos do que gostas uma vez. A partir daí, cada dia numa cidade nova já vem planeado.
+          </p>
+          <div style="height:var(--s7)"></div>
+          <input class="field" id="loginEmail" type="email" placeholder="email@exemplo.com" autocomplete="off">
+          <button class="btn" id="loginGo" style="margin-top:var(--s3)">Continuar</button>
+          <p class="rule" style="margin:var(--s5) 0">ou</p>
+          <div style="display:flex;gap:var(--s2)">
+            <button class="btn ghost" data-login="apple">Apple</button>
+            <button class="btn ghost" data-login="google">Google</button>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+        <p class="legal">Ao continuar aceitas os <u>Termos</u> e a <u>Política de Privacidade</u>.<br>Protótipo — não é feita autenticação real.</p>
+      </div>
+    </section>
+
+    <!-- ============ ONBOARDING ============ -->
+    <section class="screen onb" data-screen="onboarding">
+      <div class="inner">
+        <div class="onb-top">
+          <button class="icon-btn" id="onbBack" aria-label="Voltar"></button>
+          <div class="progress" id="onbProgress"><i></i><i></i><i></i><i></i><i></i></div>
+          <button class="icon-btn t-meta" id="onbSkip" style="width:auto;padding:0 var(--s2)">Saltar</button>
+        </div>
+
+        <div class="onb-body">
+          <div class="onb-step is-active" data-step="0">
+            <span class="step-count"></span>
+            <h1 class="t-display">Onde estás?</h1>
+            <p class="t-body dim">Confirma a cidade para sabermos o que tens à volta.</p>
+            <div id="optsCity"></div>
+            <div class="onb-help"><span class="onb-help-ico"></span>
+              <p>Usamos isto só para procurar sítios perto de ti. Não guardamos o teu percurso.</p></div>
+          </div>
+
+          <div class="onb-step" data-step="1">
+            <span class="step-count"></span>
+            <h1 class="t-display">De que gostas?</h1>
+            <p class="t-body dim">Escolhe pelo menos 3. Quantos mais, melhores as sugestões.</p>
+            <div class="chips" id="chipsInterests"></div>
+            <div class="onb-help"><span class="onb-help-ico"></span>
+              <p>É o que mais pesa no roteiro. Podes mudar a qualquer momento no Perfil.</p></div>
+          </div>
+
+          <div class="onb-step" data-step="2">
+            <span class="step-count"></span>
+            <h1 class="t-display">Que ritmo queres?</h1>
+            <p class="t-body dim">Quantas paragens cabem num dia teu.</p>
+            <div id="optsPace"></div>
+            <div class="onb-help"><span class="onb-help-ico"></span>
+              <p>Decide o número de paragens e o tempo entre elas. Dá para mudar a meio do dia.</p></div>
+          </div>
+
+          <div class="onb-step" data-step="3">
+            <span class="step-count"></span>
+            <h1 class="t-display">Quanto queres gastar?</h1>
+            <p class="t-body dim">Por pessoa, só em entradas e comida.</p>
+            <div id="optsBudget"></div>
+            <div class="onb-help"><span class="onb-help-ico"></span>
+              <p>Sítios acima do teu limite ficam de fora do roteiro, mas continuam no mapa.</p></div>
+          </div>
+
+          <div class="onb-step" data-step="4">
+            <span class="step-count"></span>
+            <h1 class="t-display">Queres conhecer gente?</h1>
+            <p class="t-body dim">Grupos pequenos a fazer o mesmo que tu, à mesma hora.</p>
+            <div id="optsSocial"></div>
+            <div class="onb-help"><span class="onb-help-ico"></span>
+              <p>Os hangouts nunca te interrompem o roteiro e são sempre em sítio público.</p></div>
+          </div>
+        </div>
+
+        <div class="onb-foot">
+          <button class="btn" id="onbNext">Continuar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ A MONTAR O DIA ============ -->
+    <section class="screen building on-black" data-screen="building">
+      <div class="orbit">
+        <div class="core"><svg class="logo-mark" width="30" height="30" aria-hidden="true"><use href="#dmt-mark"/></svg></div>
+      </div>
+      <div>
+        <h2 class="t-title" id="buildTitle">A montar o teu dia em Roma</h2>
+        <p class="t-meta" style="margin-top:var(--s2)">Demora menos do que escolher um sítio</p>
+      </div>
+      <div class="build-steps" id="buildSteps"></div>
+    </section>
+
+    <!-- ============ HOME ============ -->
+    <section class="screen home" data-screen="home">
+      <svg id="map"></svg>
+
+      <div class="map-ui">
+        <div class="map-top-left" id="mapTopLeft"></div>
+        <div class="map-top-right"><button class="avatar-btn" id="avatarBtn">A</button></div>
+        <div class="pill-info" id="mapPill" hidden></div>
+        <div class="map-float" id="mapTools">
+          <button class="map-btn" id="zoomIn" aria-label="Aproximar"></button>
+          <button class="map-btn" id="zoomOut" aria-label="Afastar"></button>
+          <button class="map-btn" id="recenterBtn" aria-label="Centrar em mim"></button>
+        </div>
+      </div>
+
+      <div class="nav-bar" id="navBar" hidden></div>
+
+      <div class="sheet snapping" id="sheet">
+        <div class="handle-wrap" id="sheetHandle"><div class="handle"></div></div>
+        <div class="sheet-body" id="sheetBody"></div>
+      </div>
+
+      <nav class="tabbar" id="tabbar"></nav>
+    </section>
+
+    <!-- ============ RECIBO ============ -->
+    <section class="screen receipt" data-screen="receipt">
+      <div class="receipt-scroll" id="receiptScroll"></div>
+    </section>
+
+    <div class="homebar" id="homebar"></div>
+  </div>
+
+  <p class="stage-caption">DoMyTrip · protótipo clicável</p>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/map.js"></script>
+<script src="js/app.js"></script>
+<script src="js/gate.js"></script>
+</body>
+</html>

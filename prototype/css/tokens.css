@@ -1,0 +1,84 @@
+/* DoMyTrip — tokens de design.
+   Regra: nenhuma cor literal fora deste ficheiro. Ver DESIGN.md §2. */
+
+:root {
+  /* --- Cor: base. Preto real e cinzentos frios neutros, à maneira do Uber. --- */
+  --ink: #000000;
+  --ink-2: #1A1A1A;
+  --ink-3: #545454;
+  --ink-4: #8E8E93;
+  --surface: #FFFFFF;
+  --surface-2: #F5F5F6;
+  --surface-3: #EAEAEC;
+  --line: #E2E2E4;
+  --line-strong: #C7C7CC;
+
+  /* --- Cor: acento. Um só, e reservado. --- */
+  --accent: #00B37E;
+  --accent-press: #00946A;
+  --accent-soft: #E4F7F0;
+
+  --green: #00B37E;
+  --amber: #B36B00;
+  --red: #D6301C;
+
+  /* --- Cor: mapa. Cinzentos frios; os edifícios têm três faces. --- */
+  --map-land: #EDEDEF;
+  --map-road: #FFFFFF;
+  --map-water: #CBDCEA;
+  --map-park: #DDE6D9;
+  --map-label: #8E8E93;
+  --map-block: #E3E3E6;
+
+  /* --- Tipografia --- */
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --t-hero-size: 38px;      --t-hero-weight: 700;     --t-hero-lh: 1.05;
+  --t-display-size: 30px;   --t-display-weight: 700;  --t-display-lh: 1.12;
+  --t-title-size: 21px;     --t-title-weight: 700;    --t-title-lh: 1.2;
+  --t-heading-size: 16px;   --t-heading-weight: 650;  --t-heading-lh: 1.3;
+  --t-body-size: 15px;      --t-body-weight: 500;     --t-body-lh: 1.45;
+  --t-meta-size: 13px;      --t-meta-weight: 500;     --t-meta-lh: 1.35;
+  --t-micro-size: 11px;     --t-micro-weight: 650;    --t-micro-lh: 1.2;
+
+  /* --- Espaçamento (escala de 4) --- */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 20px; --s6: 24px; --s7: 32px; --s8: 40px;
+
+  /* --- Raio: mais fechado que antes. O Uber não é arredondado. --- */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+  --r-pill: 999px;
+
+  /* --- Elevação: sombras neutras e curtas --- */
+  --e-1: 0 1px 2px rgba(0,0,0,.06), 0 2px 8px rgba(0,0,0,.04);
+  --e-2: 0 3px 14px rgba(0,0,0,.14);
+  --e-3: 0 -8px 30px rgba(0,0,0,.10);
+
+  /* --- Movimento --- */
+  --dur-fast: 140ms;
+  --dur: 240ms;
+  --dur-slow: 380ms;
+  --dur-xslow: 640ms;
+  --ease: cubic-bezier(.22, .9, .28, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-spring: cubic-bezier(.34, 1.3, .42, 1);
+
+  /* --- Métricas do dispositivo de referência --- */
+  --phone-w: 390px;
+  --phone-h: 844px;
+  --safe-top: 44px;
+  --safe-bottom: 34px;
+  --tabbar-h: 58px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur: 0ms;
+    --dur-slow: 0ms;
+    --dur-xslow: 0ms;
+  }
+}

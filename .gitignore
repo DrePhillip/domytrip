@@ -1,0 +1,8 @@
+# Gerado por tools/build-publish.js a cada publicação no claude.ai
+prototype/_artifact.html
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+node_modules/
